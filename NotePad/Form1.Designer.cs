@@ -40,20 +40,22 @@
             this.自动换行ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.字体ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.查看ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.状态栏ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.查看帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于记事本ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.statusBarInfo = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.日期时间ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
-            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 0, 0, 0);
+            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(0);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.文件ToolStripMenuItem,
             this.编辑ToolStripMenuItem,
@@ -146,7 +148,8 @@
             // 编辑ToolStripMenuItem
             // 
             this.编辑ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.撤销ToolStripMenuItem});
+            this.撤销ToolStripMenuItem,
+            this.日期时间ToolStripMenuItem});
             this.编辑ToolStripMenuItem.Name = "编辑ToolStripMenuItem";
             this.编辑ToolStripMenuItem.Size = new System.Drawing.Size(59, 24);
             this.编辑ToolStripMenuItem.Text = "编辑(&E)";
@@ -181,6 +184,7 @@
             this.字体ToolStripMenuItem.Name = "字体ToolStripMenuItem";
             this.字体ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.字体ToolStripMenuItem.Text = "字体(&F)...";
+            this.字体ToolStripMenuItem.Click += new System.EventHandler(this.字体ToolStripMenuItem_Click);
             // 
             // 查看ToolStripMenuItem
             // 
@@ -190,44 +194,6 @@
             this.查看ToolStripMenuItem.Size = new System.Drawing.Size(60, 24);
             this.查看ToolStripMenuItem.Text = "查看(&V)";
             // 
-            // 帮助ToolStripMenuItem
-            // 
-            this.帮助ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.查看帮助ToolStripMenuItem,
-            this.关于记事本ToolStripMenuItem});
-            this.帮助ToolStripMenuItem.Name = "帮助ToolStripMenuItem";
-            this.帮助ToolStripMenuItem.Size = new System.Drawing.Size(61, 24);
-            this.帮助ToolStripMenuItem.Text = "帮助(&H)";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(0, 24);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(0);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(440, 215);
-            this.textBox1.TabIndex = 1;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 239);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(440, 22);
-            this.statusStrip1.TabIndex = 2;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(131, 17);
-            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
-            // 
             // 状态栏ToolStripMenuItem
             // 
             this.状态栏ToolStripMenuItem.Checked = true;
@@ -236,6 +202,15 @@
             this.状态栏ToolStripMenuItem.Name = "状态栏ToolStripMenuItem";
             this.状态栏ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.状态栏ToolStripMenuItem.Text = "状态栏";
+            // 
+            // 帮助ToolStripMenuItem
+            // 
+            this.帮助ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.查看帮助ToolStripMenuItem,
+            this.关于记事本ToolStripMenuItem});
+            this.帮助ToolStripMenuItem.Name = "帮助ToolStripMenuItem";
+            this.帮助ToolStripMenuItem.Size = new System.Drawing.Size(61, 24);
+            this.帮助ToolStripMenuItem.Text = "帮助(&H)";
             // 
             // 查看帮助ToolStripMenuItem
             // 
@@ -249,6 +224,53 @@
             this.关于记事本ToolStripMenuItem.Name = "关于记事本ToolStripMenuItem";
             this.关于记事本ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.关于记事本ToolStripMenuItem.Text = "关于记事本(&A)";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.textBox1.Location = new System.Drawing.Point(0, 24);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(440, 215);
+            this.textBox1.TabIndex = 1;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusBarInfo,
+            this.toolStripStatusLabel2});
+            this.statusStrip1.Location = new System.Drawing.Point(301, 239);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(139, 22);
+            this.statusStrip1.TabIndex = 2;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // statusBarInfo
+            // 
+            this.statusBarInfo.Margin = new System.Windows.Forms.Padding(0);
+            this.statusBarInfo.Name = "statusBarInfo";
+            this.statusBarInfo.Size = new System.Drawing.Size(98, 22);
+            this.statusBarInfo.Text = "第 1 行，第 1 列";
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(24, 17);
+            this.toolStripStatusLabel2.Text = "    ";
+            // 
+            // 日期时间ToolStripMenuItem
+            // 
+            this.日期时间ToolStripMenuItem.Name = "日期时间ToolStripMenuItem";
+            this.日期时间ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.日期时间ToolStripMenuItem.Text = "日期/时间(&D)";
+            this.日期时间ToolStripMenuItem.Click += new System.EventHandler(this.日期时间ToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -293,10 +315,12 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel statusBarInfo;
         private System.Windows.Forms.ToolStripMenuItem 状态栏ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 查看帮助ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 关于记事本ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripMenuItem 日期时间ToolStripMenuItem;
     }
 }
 
