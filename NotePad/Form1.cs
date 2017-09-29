@@ -11,40 +11,46 @@ using System.Windows.Forms;
 
 namespace NotePad {
     public partial class Form1 : Form {
-
+        string title = "";
         string str;
         string fileName="";
         bool autoWrap = true;
-        bool saved = false;
+        bool saved = true;
 
         public Form1() {
             InitializeComponent();
             init();
-            this.FormClosing += new FormClosingEventHandler(beforeClose);
         }
-        private void beforeClose(object sender, FormClosingEventArgs e) {
+        protected override void OnClosing(CancelEventArgs e) {
             if (!saved) {
-                MessageBox.Show("未保存，请保存关闭窗口");
+                var ret = MessageBox.Show("当前文档未保存，是否保存？",title, MessageBoxButtons.YesNoCancel);
+                switch (ret) {
+                    case DialogResult.Yes:
+                        var saveReturnValue = save();
+                        if (saveReturnValue != DialogResult.OK) e.Cancel = true;
+                        break;
+                    case DialogResult.No:
+                        break;
+                    case DialogResult.Cancel:
+                        e.Cancel = true;
+                        break;
+                }
             }
         }
+
         private void init() {
             textBox1.ScrollBars = ScrollBars.Vertical;
             //开辟控制台进行调试
-            ConsoleEx.AllocConsole();
+            //ConsoleEx.AllocConsole();
+            title = this.Text;
             textBox1.KeyUp += new KeyEventHandler(textBox1_KeyUp);
+            textBox1.CursorChanged += new EventHandler(textBox1_CursorChanged);
         }
         byte[] byData = new byte[100];
         char[] charData = new char[1000];
         public void Read(String filePath) {
             try {
-                var sb=new StringBuilder();
-                FileStream file = new FileStream(filePath, FileMode.Open);
-                file.Seek(0, SeekOrigin.Begin);
-                file.Read(byData, 0, 100); //byData传进来的字节数组,用以接受FileStream对象中的数据,第2个参数是字节数组中开始写入数据的位置,它通常是0,表示从数组的开端文件中向数组写数据,最后一个参数规定从文件读多少字符.
-                Decoder d = Encoding.Default.GetDecoder();
-                d.GetChars(byData, 0, byData.Length, charData, 0);
-                sb.Append(new String(charData));
-                file.Close();
+                string sb=File.ReadAllText(filePath);
                 //设置文字
                 textBox1.Text = sb.ToString();
                 //设置光标到最后
@@ -64,9 +70,12 @@ namespace NotePad {
         }
         private void textBox1_TextChanged(object sender, EventArgs e) {
             changeStatusBarInfo();
+            saved = false;
+        }
+        private void textBox1_CursorChanged(object sender, EventArgs e) {
+            changeStatusBarInfo();
         }
         private void textBox1_KeyUp(object sender, KeyEventArgs e) {
-            changeStatusBarInfo();
             //Ctrl+S
             if (e.Control && e.KeyValue == 'S') {
                 保存ToolStripMenuItem_Click(sender,e);
@@ -106,7 +115,9 @@ namespace NotePad {
         private void 新建ToolStripMenuItem_Click(object sender, EventArgs e) {
 
         }
-
+        private void setTitleName() {
+            this.Text = fileName + " - 记事本";
+        }
         private void 打开ToolStripMenuItem_Click(object sender, EventArgs e) {
             OpenFileDialog of = new OpenFileDialog();
             of.ValidateNames = true;
@@ -117,10 +128,12 @@ namespace NotePad {
                 this.fileName = of.FileName;
                 Console.WriteLine(fileName);
                 Read(fileName);
+                setTitleName();
             }
+            
         }
-
-        private void 保存ToolStripMenuItem_Click(object sender, EventArgs e) {
+        private DialogResult save() {
+            DialogResult ret = DialogResult.Cancel;
             try {
                 if (fileName.Equals("")) {
                     SaveFileDialog sf = new SaveFileDialog();
@@ -129,20 +142,34 @@ namespace NotePad {
                         fileName = sf.FileName;
                         Write(fileName);
                     }
+                    setTitleName();
                 }
                 else
                     Write(fileName);
+                ret = DialogResult.OK;
+            }
+            catch (Exception ex) {
+                ret = DialogResult.Cancel;
+            }
+            return ret;
+        }
+        private void 保存ToolStripMenuItem_Click(object sender, EventArgs e) {
+            save();
+        }
+
+        private void 另存为ToolStripMenuItem_Click(object sender, EventArgs e) {
+            try {
+                    SaveFileDialog sf = new SaveFileDialog();
+                    sf.Filter = "Text Document(*.txt)|*.txt|All Files|*.*";
+                    if (sf.ShowDialog() == DialogResult.OK) {
+                        fileName = sf.FileName;
+                        Write(fileName);
+                    }
                 Console.WriteLine(fileName);
             }
             catch (Exception ex) {
                 ex.print();
             }
-            
-        }
-
-        private void 另存为ToolStripMenuItem_Click(object sender, EventArgs e) {
-            //textBox1.Text;
-
         }
 
         private void 查看帮助ToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -164,6 +191,10 @@ namespace NotePad {
             sb.Insert(i, timeString);
             textBox1.Text = sb.ToString();
             textBox1.SelectionStart = i + timeString.Length;
+        }
+
+        private void 撤销ToolStripMenuItem_Click(object sender, EventArgs e) {
+            textBox1.Undo();
         }
     }
     static class Utils {
